@@ -1,11 +1,11 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 
-// りえま ID:34665 PASS:0801
-// おつる ID:98676 PASS:1126
+// りえま ID:rie5181 PASS:rieko8105
+// おつる ID:chizu1126 PASS:elvis1126
 
 var HEADER = "";
-if ( process.argv[2] == '34665' ) HEADER = "【りえまリハ予約】"; else HEADER = "【おつるリハ予約】";
+if ( process.argv[2] == 'rie5181' ) HEADER = "【りえまリハ予約】"; else HEADER = "【おつるリハ予約】";
 
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
@@ -42,6 +42,10 @@ async function DEBUG(page) {
     console.log(html);
 }
 
+function Wait_MS (ms) {
+  return new Promise(resolve => setTimeout(() => resolve(), ms));
+}
+
 var browser = "";
 var page = "";
 var ITEMs = [];
@@ -51,12 +55,15 @@ var ITEMs = [];
     try{
 	const aURL = URLs[0];
 
-	const PROXYs = JSON.parse(fs.readFileSync('../Proxy_Checker/availablePROXY.json', 'utf-8'));
-
-	const aPROXY = PROXYs[Math.floor(Math.random()*PROXYs.length)];
+	//const PROXYs = JSON.parse(fs.readFileSync('../Proxy_Checker/availablePROXY.json', 'utf-8'));
+	//const aPROXY = PROXYs[Math.floor(Math.random()*PROXYs.length)];
+	//browser = await puppeteer.launch({
+	//    headless: true,
+	//    args: ['--lang=ja,en-US,en', '--disable-gpu', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-first-run', '--no-sandbox', '--no-zygote', '--single-process', '--proxy-server '+aPROXY['addr']+':'+aPROXY['port']],
+	//});
 	browser = await puppeteer.launch({
 	    headless: true,
-	    args: ['--lang=ja,en-US,en', '--disable-gpu', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-first-run', '--no-sandbox', '--no-zygote', '--single-process', '--proxy-server '+aPROXY['addr']+':'+aPROXY['port']],
+	    args: ['--lang=ja,en-US,en', '--disable-gpu', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-first-run', '--no-sandbox', '--no-zygote', '--single-process']
 	});
 	// メイン処理用のタブ
 	page = (await browser.pages())[0];
@@ -80,15 +87,25 @@ var ITEMs = [];
 	});
 
 	// 予約サイトをオープン
-	await page.goto( aURL, {timeout: 600000, waitUntil: ["load", "domcontentloaded", "networkidle0"]} );
-
-	await DEBUG(page); process.exit(0);
+	await page.goto( aURL, {timeout: 6000, waitUntil: ["load", "domcontentloaded", "networkidle0"]} );
 
 	// ログイン
-	await page.type('input[name="login_id"][id="loginID"]', process.argv[2]);
-	await page.type('input[name="password"][id="loginPassword"]', process.argv[3]);
-        await (await page.$('button[name="submit"]')).click();
-	await page.waitForSelector('div.layoutMypage_index', {timeout: 600000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	await page.type('input[id="multi_loginid[0]"][name="multi_loginid[0]"]', process.argv[2]);
+	await page.type('input[id="multi_password[0]"][name="multi_password[0]"]', process.argv[3]);
+        await (await page.$('input[id="next_button_login"][value=" 次へ "]')).click();
+	//await Wait_MS(5000);
+	await page.waitForSelector('input[id="next_button_menu"][value=" 次へ "]', {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+
+	// 長谷川先生を選択
+	await (await page.$('label[upper_mm_id="nomi_7"]')).click(); await Wait_MS(3000);
+	await (await page.$('input[id="next_button_menu"][value=" 次へ "]')).click(); await Wait_MS(3000);
+
+	// 同意する
+	await (await page.$('input[id="next_button_option"][value=" 次へ "]')).click(); await Wait_MS(3000);
+	
+	
+	await Wait_MS(3000); await DEBUG(page); process.exit(0);
+
 
 
 	// 予約内容を取り出す(2ページ分)
