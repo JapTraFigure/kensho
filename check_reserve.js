@@ -42,6 +42,19 @@ async function DEBUG(page) {
     console.log(html);
 }
 
+async function testWaitSel(ARGV) {
+    var ERR_FLAG = false;
+    try {
+	await ARGV['tab'].waitForSelector(ARGV['sel'], {timeout: 5000, visible: true});
+    }
+    catch(e) {
+	//console.log(e);
+	ERR_FLAG = true;
+	console.log('\tError! waitFor:'+ARGV['sel']);
+    }
+    return ERR_FLAG;
+}
+
 function Wait_MS (ms) {
   return new Promise(resolve => setTimeout(() => resolve(), ms));
 }
@@ -94,15 +107,66 @@ var ITEMs = [];
 	await page.type('input[id="multi_password[0]"][name="multi_password[0]"]', process.argv[3]);
         await (await page.$('input[id="next_button_login"][value=" 次へ "]')).click();
 	//await Wait_MS(5000);
-	await page.waitForSelector('input[id="next_button_menu"][value=" 次へ "]', {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
 
+	var SEL = 'input[id="next_button_menu"][value=" 次へ "]';
+	var ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	if ( !ERR_FLAG2 ) {
+	    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	    await (await page.$(SEL)).click();
+	}
+	SEL = 'input.input_nextbutton[id="next_button_change"][value=" 次へ "]';
+	ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	if ( !ERR_FLAG2 ) { // 予約がすでにとってある場合
+	    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	    await (await page.$(SEL)).click();
+	}
+	await Wait_MS(3000);
+	
 	// 長谷川先生を選択
-	await (await page.$('label[upper_mm_id="nomi_7"]')).click(); await Wait_MS(3000);
-	await (await page.$('input[id="next_button_menu"][value=" 次へ "]')).click(); await Wait_MS(3000);
+	//SEL = 'label[upper_mm_id="nomi_7"]';
+	//ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	//if ( !ERR_FLAG2 ) {
+	//    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	//    await (await page.$(SEL)).click();
+	//}
+	//await Wait_MS(3000)
+	SEL = 'input[id="next_button_menu"][value=" 次へ "]';
+	ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	if ( !ERR_FLAG2 ) {
+	    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	    await (await page.$(SEL)).click();
+	}
+	await Wait_MS(3000)
+
 
 	// 同意する
-	await (await page.$('input[id="next_button_option"][value=" 次へ "]')).click(); await Wait_MS(3000);
+	SEL = 'input[id="next_button_option"][value=" 次へ "]';
+	ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	if ( !ERR_FLAG2 ) {
+	    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	    await (await page.$(SEL)).click();
+	}
+	await Wait_MS(3000)
 	
+	// 次の週
+	SEL = 'span.calendar-next-week';
+	ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	if ( !ERR_FLAG2 ) {
+	    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	    await (await page.$(SEL)).click();
+	}
+	await Wait_MS(3000)
+
+	// もう一回、次の週
+	SEL = 'span.calendar-next-week';
+	ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	if ( !ERR_FLAG2 ) {
+	    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	    await (await page.$(SEL)).click();
+	}
+	await Wait_MS(3000)
+
+
 	
 	await Wait_MS(3000); await DEBUG(page); process.exit(0);
 

@@ -1,0 +1,167 @@
+	Error! waitFor:input[id="next_button_menu"][value=" 次へ "]
+
+<div class="div_sp_scrollable_content">
+<div id="loading" style="display: none;">
+	<i class="fa fa-spinner fa-spin"></i>
+</div>
+<div id="bk_cover"></div>
+<!--chre2_alert-->
+<div id="alert_box" class="modal_box">
+	<div id="alert_inbox" class="modal_inbox">
+		<span id="alert_inbox_ttl" class="modal_inbox_ttl">ここにタイトルを表示。</span>
+		<span id="alert_inbox_txt" class="modal_inbox_txt">ここにメッセージを表示。ここにメッセージを表示。ここにメッセージを表示。ここにメッセージを表示。ここにメッセージを表示。</span>
+		<span id="alert_inbox_close" class="modal_inbox_close"><i class="fa fa-times"></i>閉じる</span>
+	</div><!--modal_inbox-->
+</div>
+<!--chre2_alert ここまで-->
+
+<!--chre2_confirm-->
+<div id="confirm_box" class="modal_box">
+	<div id="alert_inbox" class="modal_inbox">
+		<span id="confirm_inbox_ttl" class="modal_inbox_ttl">ここにタイトルを表示。</span>
+		<span id="confirm_inbox_txt" class="modal_inbox_txt">ここにメッセージを表示。ここにメッセージを表示。ここにメッセージを表示。ここにメッセージを表示。ここにメッセージを表示。</span>
+		<span id="confirm_inbox_yes" class="modal_inbox_close">はい</span>
+		<span id="confirm_inbox_no" class="modal_inbox_close">いいえ</span>
+	</div><!--modal_inbox-->
+</div>
+<!--chre2_confirm ここまで-->
+
+<section class="section_mypage" style="display: none;">
+	<span id="closing" class="icon_rightArrow">&nbsp;</span>
+
+	<!--ログイン時 -->
+	<section id="section_logined" style="display: block;">
+
+		<section id="section_logined_customer"><section id="section_icon"><i class="fa fa-user-plus"></i></section><h3 class="h3_mypage_name">34665 りえこ 様</h3><span class="span_myticket_num">診察券番号:34665</span></section>
+		<a href="#" id="a_mypage">予約の確認</a><br>
+		<a href="#" id="a_mypage_logout">ログアウトする</a>
+		<a href="#" class="a_back_index">戻る</a>
+
+	</section>
+
+	<!--未ログイン時 -->
+	<section id="section_auth" style="display: none;">
+		<section id="section_icon">
+			<section class="icon_phone"></section>
+		</section>
+		<i class="fa fa-user-plus"></i>
+				<h3 class="h3_mypage_name">マイアカウント</h3>
+		<span class="span_myticket_num">以下のリンクより必要事項を記入の上ログインすると、現在の予約状況等をこの画面で閲覧することができます。<br><span class="span_exp_txt">※当サイトをご利用頂いた事がある場合はログイン可能です<br>※当院が初めての方、また当サイトを利用するのが初めての方はトップページメニューよりご登録をお願いいたします</span></span>
+
+		<a href="#" id="a_mypage_login">ログインする</a>
+		<a href="#" class="a_back_index">戻る</a>
+	</section>
+
+</section>
+
+<section id="section_bodybox">
+
+    <header id="header_index" class="color_blue" style="display: none;">
+        <section id="section_header" class="top_logo_style">
+            <div id="div_header_logo_box" class="logo_only">
+                <h1 id="header_ttl" class="title_sp_logo_mode">新横浜整形外科リウマチ科</h1>
+            <img id="img_sp_header_logo" class="img_logo_index" src="https://img.reserve.ne.jp/chre2/account/shinyoko/WkVJD4NuLyLK31jHEbL9.png"></div>
+
+		<!--未ログイン時 -->
+		<a href="javascript:void(0)" onclick="chre2.controller('reserve.php?mode=confirm&amp;json_flg=1');return false;"><span class="loginbtn" id="span_hum_open" style="display: none;">ログイン</span></a>
+
+		<!--ログイン時 -->
+		<!-- <i class="fa fa-user" id="i_hum_open"></i> -->
+		<span class="logoutbtn" id="i_hum_open" style="display: block;">ログアウト</span>
+
+		<span id="add_lang_btn" style="display: none;"></span>
+
+
+		</section>
+				<div class="div_whitebase_main_progress_indicator" style="display: none;"><div id="div_whitebase_main_progress_value"></div></div>
+		
+		<section id="section_white_cover"></section>
+	<div class="div_top_image_whitebase top_image_logo_style"><img class="main_img" src="https://img.reserve.ne.jp/chre2/account/shinyoko/4OnyjEJJlrjl9Vyq1ljm.jpg"></div></header>
+
+	<header id="header_contents_top" class="color_blue" style="display: block;">
+		<section id="section_header" class="logo_only">
+		<img id="img_sp_header_logo" class="img_logo_index_after" src="https://img.reserve.ne.jp/chre2/account/shinyoko/WkVJD4NuLyLK31jHEbL9.png" style="cursor: pointer;"><h1 id="header_ttl_contents_top" class="title_sp_logo_mode" style="cursor: pointer;">新横浜整形外科リウマチ科</h1>
+		</section>
+				<div class="div_whitebase_main_progress_indicator" style="display: none;"><div id="div_whitebase_main_progress_value"></div></div>
+			</header>
+
+	<ul id="ul_hum_menu" style="display: none;">
+		<li><a href="javascript:void(0)" onclick="chre2.controller('reserve.php?mode=confirm&amp;json_flg=1');return false;">ログイン（予約確認）</a></li>
+		<li><a href="javascript:void(0)" onclick="chre2.controller('index.php?logout=1&amp;json_flg=1');return false;">ログアウト</a></li>
+		<li><a href="javascript:void(0)" onclick="chre2.controller('index.php?json_flg=1');return false;">トップ</a></li>
+	</ul>
+
+		<div id="app_wrapper" class="top_logo_style form_wrapper_whitebase">
+		<section id="section_article_welcome" style="display: none;">
+
+    <div class="title_welcome"><div class="div_welcome_phrase_whitebase">ようこそ</div><div class="div_welcome_customer_name">新横浜整形外科リウマチ科へ</div></div><div class="div_description_continue">		<article class="article_welcome left_align" style="max-height: initial; height: 100%;">こちらは新横浜整形外科リウマチ科リハビリ専用(2階ご利用者様のみ)の予約サイトです。<br>以下のメニューをご予約いただけます。<div id="div_open_form" class="whitebase">【診療時間】<br><br>平日　午前:09:00～13:00、午後:15:00～18:00(受付)<br>土曜　午前:09:00～13:00、午後:15:00～17:30(受付)<br>日曜・祝日　午前:09:00～13:00　午後休診<br><br>※2階と4階のリハビリ内容が異なりますので、4階でリハビリを行っている方は、ご予約できません。</div></article>
+	</div>	</section>
+
+
+	<section id="section_icon_area" style="display: none;">
+		<section id="section_icon">
+			<section class="icon icon_home" style="display: none;">&nbsp;</section>
+			<section class="icon icon_reserve" style="display: block;">&nbsp;</section>
+			<section class="icon icon_first" style="display: none;">&nbsp;</section>
+		</section>
+		<h2 id="h2_reserve_ttl">予約を行います</h2>
+	</section>
+
+
+
+
+	<form id="main" class="form_whitebase">
+	<section id="section_contents"><div id="article_reserve_login" class="reserve_ttls" box="login" no="0" style="display: none;"><span class="span_number">1</span><p id="p_reserve_login">ログイン・予約情報</p></div><section id="section_reserve_login" box_name="login" no="0" class="section_reserve" style="display: none;"><div id="reserve_ar_logined_customer"><div>34665 りえこ 様</div></div><div id="ope_name">指名なし&nbsp;リハビリ1単位を選択しています。</div><div class="div_np_area"><input type="button" id="next_button_login" box_name="login" class="input_nextbutton" one_status="certification" value=" 次へ "></div></section><div id="article_reserve_change" class="reserve_ttls" box="change" no="1" style="display: none;"><span class="span_number">2</span><p id="p_reserve_change">予約変更を選択してください。</p></div><section id="section_reserve_change" box_name="change" no="1" class="section_reserve" style="display: none;"><div id="reserve_change_input"><div id="div_inq_area_practice_change" class="div_inq_area_practice"><div class="div_cat_box" id="div_cat_box_2"><input value="2" title="予約追加する" id="change_append_flg_2" name="change_append_flg" type="radio"><label for="change_append_flg_2" class="switch-on">予約追加する</label></div><div class="div_cat_box" id="div_cat_box_1"><input value="1" title="予約変更する" id="change_append_flg_1" name="change_append_flg" type="radio"><label for="change_append_flg_1" class="switch-on">予約変更する</label></div></div><div id="div_inq_ttl_change_cus_34458" class="div_inq_ttl">34665 りえこ 様 の予約</div><div class="div_inq_area_radio_checkbox" id="div_change_r94425"><input value="94425" id="ar_r_id_94425" name="ar_r_id[]" type="checkbox" ar_r_id="ar_r_id"><label for="ar_r_id_94425" class="switch-on">2023/05/27(土) 14:40 長谷川 三彰 リハビリ1単位</label></div></div><div class="div_np_area"><input type="button" id="next_button_change" box_name="change" class="input_nextbutton" one_status="choice_change" value=" 次へ "><input type="button" id="prior_button_change" box_name="change" class="input_priorbutton" one_status="choice_change" value="前へ"></div></section><div id="article_reserve_menu" class="reserve_ttls" box="menu" no="2" style="display: none;"><span class="span_number">3</span><p id="p_reserve_menu">診療を選択してください。</p></div><section id="section_reserve_menu" box_name="menu" no="2" class="section_reserve" style="display: none;"><div class="div_inq_ttl">メインを選択して下さい。</div><div id="div_inq_area_practice_main_menu" class="div_inq_area_practice div_area_practice_radio_checkbox_browser_mode"><div class="div_cat_box"><input value="1" title="指名なし" upper_mm_id="1" id="upper_mm_id_1" name="upper_mm_id" type="radio" checked="checked"><label for="upper_mm_id_1" upper_mm_id="1" class="switch-on choice_main_menu">指名なし</label></div><div class="div_cat_box"><input value="25" title="大友 佑希子" upper_mm_id="25" id="upper_mm_id_25" name="upper_mm_id" type="radio"><label for="upper_mm_id_25" upper_mm_id="25" class="switch-on choice_main_menu">大友 佑希子</label></div><div class="div_cat_box"><input value="nomi_1" title="橋本 勇太" upper_mm_id="1" id="upper_nomi_mm_id_1" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_1" upper_mm_id="nomi_1" class="switch-on choice_main_menu">橋本 勇太</label></div><div class="div_cat_box"><input value="nomi_16" title="中島 祐磨" upper_mm_id="16" id="upper_nomi_mm_id_16" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_16" upper_mm_id="nomi_16" class="switch-on choice_main_menu">中島 祐磨</label></div><div class="div_cat_box"><input value="nomi_9" title="藤田 将寛" upper_mm_id="9" id="upper_nomi_mm_id_9" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_9" upper_mm_id="nomi_9" class="switch-on choice_main_menu">藤田 将寛</label></div><div class="div_cat_box"><input value="nomi_7" title="長谷川 三彰" upper_mm_id="7" id="upper_nomi_mm_id_7" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_7" upper_mm_id="nomi_7" class="switch-on choice_main_menu">長谷川 三彰</label></div><div class="div_cat_box"><input value="nomi_14" title="三輪 航大" upper_mm_id="14" id="upper_nomi_mm_id_14" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_14" upper_mm_id="nomi_14" class="switch-on choice_main_menu">三輪 航大</label></div><div class="div_cat_box"><input value="nomi_10" title="馬場 勇次" upper_mm_id="10" id="upper_nomi_mm_id_10" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_10" upper_mm_id="nomi_10" class="switch-on choice_main_menu">馬場 勇次</label></div><div class="div_cat_box"><input value="nomi_17" title="井口 愛海" upper_mm_id="17" id="upper_nomi_mm_id_17" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_17" upper_mm_id="nomi_17" class="switch-on choice_main_menu">井口 愛海</label></div><div class="div_cat_box"><input value="nomi_8" title="有賀 大樹" upper_mm_id="8" id="upper_nomi_mm_id_8" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_8" upper_mm_id="nomi_8" class="switch-on choice_main_menu">有賀 大樹</label></div><div class="div_cat_box"><input value="nomi_15" title="中村 健太郎" upper_mm_id="15" id="upper_nomi_mm_id_15" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_15" upper_mm_id="nomi_15" class="switch-on choice_main_menu">中村 健太郎</label></div><div class="div_cat_box"><input value="nomi_21" title="阿部 悠太" upper_mm_id="21" id="upper_nomi_mm_id_21" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_21" upper_mm_id="nomi_21" class="switch-on choice_main_menu">阿部 悠太</label></div><div class="div_cat_box"><input value="nomi_22" title="風間 駿" upper_mm_id="22" id="upper_nomi_mm_id_22" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_22" upper_mm_id="nomi_22" class="switch-on choice_main_menu">風間 駿</label></div><div class="div_cat_box"><input value="nomi_24" title="中村 純生" upper_mm_id="24" id="upper_nomi_mm_id_24" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_24" upper_mm_id="nomi_24" class="switch-on choice_main_menu">中村 純生</label></div><div class="div_cat_box"><input value="nomi_26" title="鈴木 聖人" upper_mm_id="26" id="upper_nomi_mm_id_26" name="upper_mm_id" type="radio"><label for="upper_nomi_mm_id_26" upper_mm_id="nomi_26" class="switch-on choice_main_menu">鈴木 聖人</label></div></div><div id="div_choice_sub_title" class="div_inq_ttl">内容を選択して下さい。</div><div id="div_inq_area_practice" class="div_inq_area_practice div_area_practice_radio_checkbox_browser_mode"><div class="div_cat_box"><input value="3" title="リハビリ1単位" sm_id="2" mm_id="1" mms_id="3" id="mms_id_3" name="mms_id" type="radio" checked="checked"><label for="mms_id_3" mms_id="3" mm_id="1" sm_id="2" class="choice_sub_menu switch-on">リハビリ1単位</label></div><div class="div_cat_box"><input value="15" title="リハビリ2単位" sm_id="7" mm_id="1" mms_id="15" id="mms_id_15" name="mms_id" type="radio"><label for="mms_id_15" mms_id="15" mm_id="1" sm_id="7" class="choice_sub_menu switch-on">リハビリ2単位</label></div></div><input value="1" id="mm_id_1" name="mm_id" type="hidden"><input value="1" id="json_flg" name="json_flg" type="hidden"><input value="1" id="set_option_flg" name="set_option_flg" type="hidden"><input value="0" id="guest_flg" name="guest_flg" type="hidden"><input id="next_state" name="next_state" type="hidden"><input id="next_unix_date" name="next_unix_date" type="hidden"><input id="prior_unix_date" name="prior_unix_date" type="hidden"><input value="0" id="sm_id_only_flg" name="sm_id_only_flg" type="hidden"><input value="0" id="mm_id_only_flg" name="mm_id_only_flg" type="hidden"><input id="cate_id_only_flg" name="cate_id_only_flg" type="hidden"><input id="ar_r_id_only_flg" name="ar_r_id_only_flg" type="hidden"><input value="0" id="datetime_only_flg" name="datetime_only_flg" type="hidden"><input value="0" id="mm_gr_id" name="mm_gr_id" type="hidden"><input value="1" id="cates_id" name="cates_id" type="hidden"><input value="" id="one_status" name="one_status" type="hidden"><input value="599351" id="many_reserve_id" name="many_reserve_id" type="hidden"><div class="div_np_area"><input type="button" id="next_button_menu" box_name="menu" class="input_nextbutton" one_status="choice_sub_menu" value=" 次へ "><input type="button" id="prior_button_menu" box_name="menu" class="input_priorbutton" one_status="choice_sub_menu" value="前へ"></div></section><div id="article_reserve_option" class="reserve_ttls" box="option" no="3" style="display: none;"><span class="span_number">4</span><p id="p_reserve_option">アンケート・問診</p></div><section id="section_reserve_option" box_name="option" no="3" class="section_reserve" style="display: none;"><div id="reserve_option" opt_id="1" class="div_reserve_option_radio_checkbox_browser_mode"><div id="div_1"><div optvar_id="6" opt_id="1" class="div_inq_ttl"><font size="4">ご同意事項</font>
+<span>※</span><div class="div_detail"><a href="javascript:void(0)" onclick="window.chre2.menu_detail('option_var', '34458_1_6');return false;"><u>初めての方はこちらで</u></a></div></div><div class="memo_front">
+<font size="5">【2階リハビリ専用】<br><font color="red">※4階ご利用の方は、リハビリの内容が異なりますのでご利用できません。</font></font><br><br>
+
+
+<font size="4">リハビリのご予約をお取りできるのは前回ご来院時より<b>2か月以内の方</b>のみとなります。<br><br>
+
+こちらに該当されない方が予約をお取りされますと、当日の対応、次回以降の予約をお取りできなくなる可能性がございます。<br><br>
+
+リハビリは1日に<u>複数枠のご予約</u>はご遠慮下さい。<br><br>
+
+
+
+リハビリにつきましては、医師の指示のもと行うことになります。<br><br>
+
+初めてご利用の方はまず整形外科を受診していただく必要があります。<br></font><br>
+</div><div class="div_inq_area" cusid_optid_keyid="34458_1_6" style="display: flex; flex-wrap: wrap;"><div class="div_cat_box_2_row">
+<input name="optvar_6[all][]" type="checkbox" id="optvarl_list_5[all]" value="前回のリハビリ" cus_id="all" optvarl_price="0" mc_minute="0" checked="">
+<label for="optvarl_list_5[all]" class="switch-on">同意する</label>
+</div>
+<br></div></div></div><div class="div_np_area"><input type="button" id="next_button_option" box_name="option" class="input_nextbutton" one_status="choice_option" value=" 次へ "><input type="button" id="prior_button_option" box_name="option" class="input_priorbutton" one_status="choice_option" value="前へ"></div></section><div id="article_reserve_datetime" class="reserve_ttls" box="datetime" no="4"><span class="span_number">5</span><p id="p_reserve_datetime">予約の候補日</p></div><section id="section_reserve_datetime" box_name="datetime" no="4" class="section_reserve" style=""><div id="reserve_date">		<input type="hidden" name="res_unix_datetime" rdate="" rtime="" id="res_unix_datetime" value="1684107600">		<div class="calendar-view">		  <div id="calendar-call-method">		    		  </div>		  <div class="calendar-header">		    <div class="calendar-util">		      <span class="calendar-near" box_name="datetime" reserve_begin_unix_date="1683903600">直近の予約</span>		      <span class="calendar-datepicker" style="display: none;">月間カレンダー</span>		    </div>		    <div class="calendar-date-ctl">		      <span class="calendar-prev-month" box_name="datetime" reserve_begin_unix_date="1683903600">前の月</span>		      <span class="calendar-prev-week" box_name="datetime" reserve_begin_unix_date="1684508400">前の週</span>		      <span class="calendar-next-week" box_name="datetime" style="display: none;">次の週</span>		      <span class="calendar-next-month" box_name="datetime" style="display: none;">次の月</span>		    </div>		  </div>		  <table class="calendar-grid">		    <tbody>		      <tr class="calendar-title">		        <th>&nbsp;</th>		      <th class="calendar-saturday">05/27<span class="calendar-week">(土)</span></th><th class="calendar-sunday">05/28<span class="calendar-week">(日)</span></th><th class="">05/29<span class="calendar-week">(月)</span></th><th class="">05/30<span class="calendar-week">(火)</span></th><th class="">05/31<span class="calendar-week">(水)</span></th><th class="">06/01<span class="calendar-week">(木)</span></th><th class="">06/02<span class="calendar-week">(金)</span></th></tr>		    <tr class="calendar-day"><th>08:20-</th><td><span>×</span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>08:40-</th><td><span>×</span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>09:00-</th><td rdate="2023-05-27" rtime="09:00:00" res_unix_datetime="1685145600" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>09:20-</th><td rdate="2023-05-27" rtime="09:20:00" res_unix_datetime="1685146800" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>09:40-</th><td><span>×</span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>10:00-</th><td><span>×</span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>10:20-</th><td><span>×</span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>10:40-</th><td rdate="2023-05-27" rtime="10:40:00" res_unix_datetime="1685151600" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>11:00-</th><td rdate="2023-05-27" rtime="11:00:00" res_unix_datetime="1685152800" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>11:20-</th><td rdate="2023-05-27" rtime="11:20:00" res_unix_datetime="1685154000" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>11:40-</th><td rdate="2023-05-27" rtime="11:40:00" res_unix_datetime="1685155200" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>12:00-</th><td rdate="2023-05-27" rtime="12:00:00" res_unix_datetime="1685156400" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>12:20-</th><td rdate="2023-05-27" rtime="12:20:00" res_unix_datetime="1685157600" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>12:40-</th><td rdate="2023-05-27" rtime="12:40:00" res_unix_datetime="1685158800" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>13:00-</th><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>13:20-</th><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>13:40-</th><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>14:00-</th><td rdate="2023-05-27" rtime="14:00:00" res_unix_datetime="1685163600" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>14:20-</th><td rdate="2023-05-27" rtime="14:20:00" res_unix_datetime="1685164800" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>14:40-</th><td rdate="2023-05-27" rtime="14:40:00" res_unix_datetime="1685166000" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>15:00-</th><td rdate="2023-05-27" rtime="15:00:00" res_unix_datetime="1685167200" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>15:20-</th><td rdate="2023-05-27" rtime="15:20:00" res_unix_datetime="1685168400" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>15:40-</th><td rdate="2023-05-27" rtime="15:40:00" res_unix_datetime="1685169600" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>16:00-</th><td rdate="2023-05-27" rtime="16:00:00" res_unix_datetime="1685170800" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>16:20-</th><td rdate="2023-05-27" rtime="16:20:00" res_unix_datetime="1685172000" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>16:40-</th><td rdate="2023-05-27" rtime="16:40:00" res_unix_datetime="1685173200" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>17:00-</th><td rdate="2023-05-27" rtime="17:00:00" res_unix_datetime="1685174400" mm_id="1" sm_id="2" class="td-calendar-empty"><span class="calendar-button calendar-ok"></span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>17:20-</th><td><span>×</span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>17:40-</th><td><span>×</span></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>18:00-</th><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr><tr class="calendar-day"><th>18:20-</th><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td><td class="calendar-none"></td></tr></tbody>		  </table>		  <div class="calendar-footer">		    <span class="calendar-desc-ok">受付中</span>		    <span class="calendar-desc-few" style="display: none;">残りわずか</span>		    <span class="calendar-desc-cw" style="display: none;">キャンセル待ち</span>		  </div>		</div>		</div><div class="div_np_area"><input type="button" id="next_button_datetime" box_name="datetime" class="input_nextbutton" one_status="choice_time" value="予約確定へ"><input type="button" id="prior_button_datetime" box_name="datetime" class="input_priorbutton" one_status="choice_time" value="前へ"></div></section></section>
+	</form>
+
+
+
+
+	<nav>
+		<ul id="ul_main_menu" class="ul_main_menu_whitebase"><li parent_flg="1" mom_page_sub_group="1" mom_id="30" mom_url="reg_customer.php?no_cache=1683961079&amp;json_flg=1&amp;cdgt=7fc3607c0f04c59637748b145a70f2fc" class="li_1 no_login nextpage" style="background-color: rgb(29, 42, 96); display: none;"><a href="javascript:void(0)" onclick="chre2.controller('reg_customer.php?no_cache=1683961079&amp;json_flg=1&amp;cdgt=7fc3607c0f04c59637748b145a70f2fc',true);return false;" style="color: rgb(255, 255, 255);">新規登録<br><br>※2階リハビリの方<br>診察券が必要です<br><br>4階の方はリハビリ内容が異なりますので、ご利用できません</a></li><li parent_flg="1" mom_page_sub_group="2" mom_id="3" mom_url="reserve.php?cates_id=1&amp;no_cache=1683961079&amp;json_flg=1&amp;cdgt=926f1d2e01f91455c9612265db20a437" class="li_2 nextpage" style="background-color: rgb(29, 42, 96); display: none;"><a href="javascript:void(0)" onclick="chre2.controller('reserve.php?cates_id=1&amp;no_cache=1683961079&amp;json_flg=1&amp;cdgt=926f1d2e01f91455c9612265db20a437',true);return false;" style="color: rgb(255, 255, 255);">ログインとリハビリ予約<br>(2階ご利用の方のみ)</a></li><li parent_flg="1" mom_page_sub_group="3" mom_id="27" mom_url="reserve.php?mode=confirm&amp;no_cache=1683961079&amp;json_flg=1&amp;cdgt=afa40685c3889735fce42ebe0e8eaaff" class="li_3 nextpage" style="background-color: rgb(29, 42, 96); display: none;"><a href="javascript:void(0)" onclick="chre2.controller('reserve.php?mode=confirm&amp;no_cache=1683961079&amp;json_flg=1&amp;cdgt=afa40685c3889735fce42ebe0e8eaaff',true);return false;" style="color: rgb(255, 255, 255);">マイページ<br>(予約のご確認)</a></li><li parent_flg="1" mom_page_sub_group="4" mom_id="32" mom_url="index.php?cms_type=form&amp;no_cache=1683961079&amp;json_flg=1&amp;cdgt=6931b7ba2ffd8e762372ffb08cd90a8a" class="li_4 nextpage" style="background-color: rgb(29, 42, 96); display: none;"><a href="javascript:void(0)" onclick="chre2.controller('index.php?cms_type=form&amp;no_cache=1683961079&amp;json_flg=1&amp;cdgt=6931b7ba2ffd8e762372ffb08cd90a8a',true);return false;" style="color: rgb(255, 255, 255);">お問い合わせ</a></li><li parent_flg="1" mom_page_sub_group="50" mom_id="17" mom_url="index.php?no_cache=1683961079&amp;json_flg=1&amp;cdgt=7fc3607c0f04c59637748b145a70f2fc" class="li_50 top_menu nextpage" style=""><a href="javascript:void(0)" onclick="chre2.controller('index.php?no_cache=1683961079&amp;json_flg=1&amp;cdgt=7fc3607c0f04c59637748b145a70f2fc',true);return false;" style="color: rgb(102, 102, 102);">トップ</a></li></ul>
+	</nav>
+
+	<footer id="under_shop_info">
+		
+		<p id="p_openfrom">【診療時間】<br><br>平日　午前:09:00～13:00、午後:15:00～18:00(受付)<br>土曜　午前:09:00～13:00、午後:15:00～17:30(受付)<br>日曜・祝日　午前:09:00～13:00　午後休診<br><br>※2階と4階のリハビリ内容が異なりますので、4階でリハビリを行っている方は、ご予約できません。</p>
+	</footer>
+
+	<section id="section_under_contents">
+		<nav>
+			<ul id="ul_under_menu"><address id="address_whitebase" class="whitebase">©2023&nbsp;新横浜整形外科リウマチ科</address><a target="_blank" id="a_reserve_whitebase" class="whitebase" href="https://medical-reserve.co.jp/">Powered by reserve.ne.jp</a></ul>
+		</nav>
+	</section>
+		</div>
+	
+
+	<footer>
+		<address class="footer_default">©2023&nbsp;新横浜整形外科リウマチ科</address>
+		<a target="_blank" style="display: block;text-align: center;padding-bottom: 11px;color: #ddd;background-color: #555;" href="https://medical-reserve.co.jp/">Powered by reserve.ne.jp</a>
+	</footer>
+
+</section><!-- section_bodybox END-->
+
+</div>
+
+
+
