@@ -123,13 +123,13 @@ var ITEMs = [];
 	await Wait_MS(3000);
 	
 	// 長谷川先生を選択
-	//SEL = 'label[upper_mm_id="nomi_7"]';
-	//ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
-	//if ( !ERR_FLAG2 ) {
-	//    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
-	//    await (await page.$(SEL)).click();
-	//}
-	//await Wait_MS(3000)
+	SEL = 'label[upper_mm_id="nomi_7"]';
+	ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	if ( !ERR_FLAG2 ) {
+	    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	    await (await page.$(SEL)).click();
+	}
+	await Wait_MS(3000)
 	SEL = 'input[id="next_button_menu"][value=" 次へ "]';
 	ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
 	if ( !ERR_FLAG2 ) {
@@ -166,81 +166,188 @@ var ITEMs = [];
 	}
 	await Wait_MS(3000)
 
+	//await Wait_MS(3000); await DEBUG(page); process.exit(0);
 
-	
-	await Wait_MS(3000); await DEBUG(page); process.exit(0);
-
-
-
-	// 予約内容を取り出す(2ページ分)
-	var PAGENUM = [];
-	if ( process.argv[2] == '34665' ) PAGENUM = ['1','2']; else PAGENUM = ['1'];
-	for ( let aPAGENUM of PAGENUM ) {
-	    await page.goto( 'https://2.onemorehand.jp/shinyokohama_seikeigeka_reha/reserved/index/'+aPAGENUM+'?lang=ja-JP', {timeout: 600000, waitUntil: ["load", "domcontentloaded", "networkidle0"]} );
-	    if ( (await page.$$('div.layoutReserveList_main_inner')).length < 1 ) throw new Error('No Reservation found.');
-	    const ELEMs = await page.$$('div.layoutReserveList_main_inner');
-	    for ( let aELEM of ELEMs ) {
-		const TEXT = (await (await aELEM.getProperty('textContent')).jsonValue()).replace(/[ \t\n]+/gsm, '');
-		//console.log(TEXT);
-
-		if ( TEXT.match(/セラピスト/) )
-		    ITEMs.push({
-			flag  : false, // 他の予約と重複していないか、のフラグ
-			number: TEXT.replace(/ご予約番号([0-9\-]+).*/, '$1'),
-			time  : TEXT.replace(/.+?予約日時([0-9]{4}\/[0-9]{2}\/[0-9]{2})([0-9]{2}\:[0-9]{2}).*/, '$1 $2'),
-			course: TEXT.replace(/.+?選択コース(.+?)セラピスト.*/, '$1'),
-			doctor: TEXT.replace(/.+?セラピスト(.+?)オプション.*/, '$1'),
-			scalar: Number(TEXT.replace(/.+?予約日時([0-9]{4}).*/, '$1'))*100000000+Number(TEXT.replace(/.+?予約日時[0-9]{4}\/([0-9]{2}).*/, '$1'))*1000000+Number(TEXT.replace(/.+?予約日時[0-9]{4}\/[0-9]{2}\/([0-9]{2}).*/, '$1'))*10000+Number(TEXT.replace(/.+?予約日時[0-9]{4}\/[0-9]{2}\/[0-9]{2}([0-9]{2}).*/, '$1'))*100+Number(TEXT.replace(/.+?予約日時[0-9]{4}\/[0-9]{2}\/[0-9]{2}[0-9]{2}\:([0-9]{2}).*/, '$1')),
-		    });
-		else
-		    ITEMs.push({
-			flag  : false, // 他の予約と重複していないか、のフラグ
-			number: TEXT.replace(/ご予約番号([0-9\-]+).*/, '$1'),
-			time  : TEXT.replace(/.+?予約日時([0-9]{4}\/[0-9]{2}\/[0-9]{2})([0-9]{2}\:[0-9]{2}).*/, '$1 $2'),
-			course: TEXT.replace(/.+?選択コース(.+?)オプション.*/, '$1'),
-			doctor: '指定なし',
-			scalar: Number(TEXT.replace(/.+?予約日時([0-9]{4}).*/, '$1'))*100000000+Number(TEXT.replace(/.+?予約日時[0-9]{4}\/([0-9]{2}).*/, '$1'))*1000000+Number(TEXT.replace(/.+?予約日時[0-9]{4}\/[0-9]{2}\/([0-9]{2}).*/, '$1'))*10000+Number(TEXT.replace(/.+?予約日時[0-9]{4}\/[0-9]{2}\/[0-9]{2}([0-9]{2}).*/, '$1'))*100+Number(TEXT.replace(/.+?予約日時[0-9]{4}\/[0-9]{2}\/[0-9]{2}[0-9]{2}\:([0-9]{2}).*/, '$1')),
-		    });
-	    }
+	// 予約可能な時間を集める
+	SEL = 'td.td-calendar-empty';
+	ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+	if ( !ERR_FLAG2 ) {
+	    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+	} else {
+	    console.log('予約可能な時間がありませんでした');
+	    process.exit(0);
 	}
 
-	ITEMs.sort(function(a,b){
-	    const sca_a = a.scalar;
-	    const sca_b = b.scalar;
-	    if ( sca_a > sca_b ) return -1;
-	    if ( sca_a < sca_b ) return 1;
-	    return 0;
-	});
+	SEL = 'td.td-calendar-empty';
+	var RLISTs = await page.$$(SEL);
+	var RFLAG = true; // 予約できなかったフラグ
+	var MESS = ""; // 予約できた時間を表示するためのテキストを格納
+	for (let i = 0; i < RLISTs.length; i++) {
+	    //var TIME = await (await RLISTs[i].getProperty('rtime')).jsonValue();
+	    var TIME = await (await RLISTs[i].getProperty('outerHTML')).jsonValue();
+	    TIME = TIME.replace(/.*rtime=\"/, '').replace(/([0-9]+\:[0-9]+\:[0-9]+).*/, '$1');
+	    console.log('rtime: ' + TIME);
+	    if (TIME.match(/15:00:00/)) {
+		await (await RLISTs[i].$('span')).click();
+		await Wait_MS(3000);
+		// 予約してよろしいですか
+		SEL = 'span[id="confirm_inbox_yes"]';
+		ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		if ( !ERR_FLAG2 ) {
+		    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+		    await (await page.$(SEL)).click();
+		    await Wait_MS(3000);
 
-	// 同じ日付の予約は行頭にシルシを付ける
-	for ( let ITEM_a of ITEMs )
-	    for ( let ITEM_b of ITEMs )
-		if ( ITEM_a['number'] == ITEM_b['number'] ) continue; else
-		    if ( Math.floor(ITEM_a['scalar'] / 10000) == Math.floor(ITEM_b['scalar'] / 10000) ) {
-			ITEM_a['flag'] = true;
-			ITEM_b['flag'] = true;
-		    }
-
-	//console.log(JSON.stringify(ITEMs, null, '\t'));
-
-	// 今日よりも以前の予約は表示しない
-	var curDATE = new Date();
-	curDATE = curDATE.toLocaleString('ja',{ "year": "numeric","month": "2-digit","day": "2-digit","hour": "2-digit","minute": "2-digit","second": "2-digit" });
-	curDATE = curDATE.replace(/[-:\/]/g, '');
-	curDATE = curDATE.replace(/ .*/, '');
-	curDATE = Number(curDATE) * 10000;
-	//console.log(curDATE);
-	var MESSAGE = "\n\n" + HEADER + '\n\n';
-	for ( let aITEM of ITEMs )
-	    if ( aITEM['scalar'] > curDATE )
-		if ( aITEM['flag'] ) { // 日時が重複している場合
-		    MESSAGE += '×日時:'+aITEM['time']+'\nコース:'+aITEM['course']+'\nセラピスト:'+aITEM['doctor']+'\n\n';
+		    // 予約をお取りしました
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+			MESS = MESS + TIME + 'を予約しました\n';
+		    } 
 		} else {
-		    MESSAGE += '日時:'+aITEM['time']+'\nコース:'+aITEM['course']+'\nセラピスト:'+aITEM['doctor']+'\n\n';
+		    // 一日に複数の予約はご遠慮ください
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+		    } 
 		}
+		await Wait_MS(3000);
+		RFLAG = false; break; }
+	    else if (TIME.match(/14:40:00/)) {
+		await (await RLISTs[i].$('span')).click();
+		await Wait_MS(3000);
+		// 予約してよろしいですか
+		SEL = 'span[id="confirm_inbox_yes"]';
+		ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		if ( !ERR_FLAG2 ) {
+		    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+		    await (await page.$(SEL)).click();
+		    await Wait_MS(3000);
 
-	console.log(MESSAGE); // DEBUG用
+		    // 予約をお取りしました
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+			MESS = MESS + TIME + 'を予約しました\n';
+		    } 
+		} else {
+		    // 一日に複数の予約はご遠慮ください
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+		    } 
+		}
+		await Wait_MS(3000);
+		RFLAG = false; break; }
+	    else if (TIME.match(/15:20:00/)) {
+		await (await RLISTs[i].$('span')).click();
+		await Wait_MS(3000);
+		// 予約してよろしいですか
+		SEL = 'span[id="confirm_inbox_yes"]';
+		ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		if ( !ERR_FLAG2 ) {
+		    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+		    await (await page.$(SEL)).click();
+		    await Wait_MS(3000);
 
+		    // 予約をお取りしました
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+			MESS = MESS + TIME + 'を予約しました\n';
+		    } 
+		} else {
+		    // 一日に複数の予約はご遠慮ください
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+		    } 
+		}
+		await Wait_MS(3000);
+		RFLAG = false; break; }
+	    else if (TIME.match(/14:20:00/)) {
+		await (await RLISTs[i].$('span')).click();
+		await Wait_MS(3000);
+		// 予約してよろしいですか
+		SEL = 'span[id="confirm_inbox_yes"]';
+		ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		if ( !ERR_FLAG2 ) {
+		    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+		    await (await page.$(SEL)).click();
+		    await Wait_MS(3000);
+
+		    // 予約をお取りしました
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+			MESS = MESS + TIME + 'を予約しました\n';
+		    } 
+		} else {
+		    // 一日に複数の予約はご遠慮ください
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+		    } 
+		}
+		await Wait_MS(3000);
+		RFLAG = false; break; }
+	    else if (TIME.match(/15:40:00/)) {
+		await (await RLISTs[i].$('span')).click();
+		await Wait_MS(3000);
+		// 予約してよろしいですか
+		SEL = 'span[id="confirm_inbox_yes"]';
+		ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		if ( !ERR_FLAG2 ) {
+		    await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+		    await (await page.$(SEL)).click();
+		    await Wait_MS(3000);
+
+		    // 予約をお取りしました
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+			MESS = MESS + TIME + 'を予約しました\n';
+		    } 
+		} else {
+		    // 一日に複数の予約はご遠慮ください
+		    SEL = 'span[id="alert_inbox_close"]';
+		    ERR_FLAG2 = await testWaitSel({tab:page, sel:SEL});
+		    if ( !ERR_FLAG2 ) {
+			await page.waitForSelector(SEL, {timeout: 5000, visible: true, waitUntil: ["domcontentloaded", "networkidle0"]} );
+			await (await page.$(SEL)).click();
+		    } 
+		}
+		await Wait_MS(3000);
+		RFLAG = false; break; }
+	}
+	//if ( RFLAG ) { console.log('予約しようとした時間に空きがありませんでした'); process.exit(0); }
+	
+	if ( MESS.match(/.+?/) ) {
+	    console.log(MESS);
+	} else {
+	    console.log('予約できませんでした');
+	}
+
+	await Wait_MS(3000); await DEBUG(page); process.exit(0);
+	
 	// LINE Notifyで自分に投稿
 	const EXECSYNC = require('child_process').execSync;
 	const COMM_Y = 'curl -X POST -H "Authorization: Bearer QL0uzKrFknF3Bd1l2dhi1D0s4ySkng7FAEPOkaIlvT5" -F "message='+MESSAGE+'" https://notify-api.line.me/api/notify'; // やましにLINE Notify
