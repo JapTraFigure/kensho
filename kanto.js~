@@ -190,12 +190,18 @@ async function openBRuntilSuccess(argUrl, WAITms) {
 	    var errTEXT  = '';
 
 	    {
-		const TEMP = await openBRuntilSuccess('https://www.taiheiyo-cement.co.jp/company/address.html', 10000);
+		const TEMP =
+		      await openBRuntilSuccess('https://www.kanto.co.jp/corp/officejp.html', 10000);
 		localBrowser = TEMP.BR; localPage = TEMP.PG;
 
 	    }
 
-	    var TBL = await localPage.$$('table');
+	    var TBL = await localPage.$$('div.common_box_01');
+
+	    var VIEW = await (await TBL[0].getProperty('innerHTML')).jsonValue(); console.log(VIEW);
+	    
+	    await DEBUG(localPage); process.exit(0);
+
 
 	    {
 		var TBL1 = await TBL[0].$$('tr');
