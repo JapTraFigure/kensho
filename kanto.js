@@ -199,16 +199,20 @@ async function openBRuntilSuccess(argUrl, WAITms) {
 	    var TBL = await localPage.$$('div.common_box_01');
 
 	    var VIEW = await (await TBL[1].getProperty('innerHTML')).jsonValue(); console.log(VIEW);
-	    
+	    var BRA = "本社";
+	    var POST = await (await (await TBL[1].$('p')).getProperty('innerHTML')).jsonValue();
+	    POST = POST.replace(/〒/sm,'').replace(/<br>.*/sm,''); console.log('POST:'+POST);
+	    var ADR = await (await (await TBL[1].$('p')).getProperty('innerHTML')).jsonValue();
+	    ADR = ADR.replace(/.+?<br>/sm,'').replace(/<br>.*/sm,''); console.log('ADR:'+ADR);
+	    var TEL = await (await (await TBL[1].$('p')).getProperty('textContent')).jsonValue();
+	    TEL = TEL.replace(/.+?TEL/,'').replace(/.+?([0-9\-]+).*/,'$1'); console.log('TEL:'+TEL);
+	    var FAX = await (await (await TBL[1].$('p')).getProperty('textContent')).jsonValue();
+	    FAX = FAX.replace(/.+?FAX/,'').replace(/.+?([0-9\-]+).*/,'$1'); console.log('FAX:'+FAX);
 	    await DEBUG(localPage); process.exit(0);
 
 
 	    {
 		var TBL1 = await TBL[0].$$('tr');
-		var BRA = "本社";
-		var POST = await (await (await TBL1[0].$('td')).getProperty('innerHTML')).jsonValue();
-		POST = POST.replace(/.+?〒/sm,'').replace(/　.*/sm,'').replace(/^./,''); //console.log('POST:'+POST);
-		var ADR = await (await (await TBL1[0].$('td')).getProperty('innerHTML')).jsonValue();
 		ADR = ADR.replace(/.+?　/sm,'').replace(/<br>.*/sm,''); //console.log('ADR:'+ADR);
 		var TEL = await (await (await TBL1[0].$('td')).getProperty('innerHTML')).jsonValue();
 		TEL = TEL.replace(/.+?<br>/sm,'').replace(/.+?([0-9\-]+).*/sm,'$1'); //console.log('TEL:'+TEL);
