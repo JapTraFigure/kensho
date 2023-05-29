@@ -190,14 +190,57 @@ async function openBRuntilSuccess(argUrl, WAITms) {
 	    var errTEXT  = '';
 
 	    {
-		const TEMP = await openBRuntilSuccess('https://www.nihonkohden.co.jp/office/honsha.html', 10000);
+		const TEMP = await openBRuntilSuccess('https://www.taiheiyo-cement.co.jp/company/address.html', 10000);
 		localBrowser = TEMP.BR; localPage = TEMP.PG;
 
 	    }
 
+	    var TBL = await localPage.$$('table');
+
+	    {
+		var TBL1 = await TBL[0].$$('tr');
+		var BRA = "本社";
+		var POST = await (await (await TBL1[0].$('td')).getProperty('innerHTML')).jsonValue();
+		POST = POST.replace(/.+?〒/sm,'').replace(/　.*/sm,'').replace(/^./,''); //console.log('POST:'+POST);
+		var ADR = await (await (await TBL1[0].$('td')).getProperty('innerHTML')).jsonValue();
+		ADR = ADR.replace(/.+?　/sm,'').replace(/<br>.*/sm,''); //console.log('ADR:'+ADR);
+		var TEL = await (await (await TBL1[0].$('td')).getProperty('innerHTML')).jsonValue();
+		TEL = TEL.replace(/.+?<br>/sm,'').replace(/.+?([0-9\-]+).*/sm,'$1'); //console.log('TEL:'+TEL);
+		console.log(BRA+',,'+ADR+','+POST+','+TEL+',');
+
+		for (let i = 1; i < TBL1.length; i++) {
+		    var NAME = await (await (await TBL1[i].$('th')).getProperty('textContent')).jsonValue();
+		    NAME = NAME.replace(/[ \t\n　]+/gsm,'').replace(/　/,'');
+		    var TEL  = await (await (await TBL1[i].$('td')).getProperty('textContent')).jsonValue();
+		    TEL = TEL.replace(/[ \t\n]+/gsm,'').replace(/.FAX.*/sm,'').replace(/TEL\./sm,'');
+		    var FAX  = await (await (await TBL1[i].$('td')).getProperty('textContent')).jsonValue();
+		    FAX = FAX.replace(/[ \t\n]+/gsm,'').replace(/.+?FAX\.([0-9\-]+).*/sm,'$1');
+		    console.log(BRA+','+NAME+','+ADR+','+POST+','+TEL+','+FAX);
+		}
+	    }
+	    
+	    {
+		var TBL1 = await TBL[1].$('tr');
+		var BRA = await (await (await TBL1.$('th > strong')).getProperty('innerHTML')).jsonValue();
+		BRA = BRA.replace(/[ \t\n　]+/gsm,'').replace(/<.+?>/gsm,'');
+		var POST = await (await (await TBL1.$('td')).getProperty('innerHTML')).jsonValue();
+		POST = POST.replace(/.+?〒/sm,'').replace(/　.*/sm,'').replace(/^./,'').replace(/<.+?>/,''); //console.log('POST:'+POST);
+		var ADR = await (await (await TBL1.$('td')).getProperty('innerHTML')).jsonValue();
+		ADR = ADR.replace(/.+?<br>/sm,'').replace(/<br>.*/sm,'').replace(/[ \t\n]+/gsm,''); //console.log('ADR:'+ADR);
+		var TEL = await (await (await TBL1.$('td')).getProperty('innerHTML')).jsonValue();
+		TEL = TEL.replace(/.+?<br>/sm,'').replace(/.+?<br>/sm,'').replace(/.+?([0-9\-]+).*/sm,'$1'); //console.log('TEL:'+TEL);
+	
+		console.log(BRA+',,'+ADR+','+POST+','+TEL+','+FAX);
+	    }
+
+	    await DEBUG(localPage); process.exit(0);
+
+
+
+
+	    
 	    var BRA = await (await(await localPage.$('h1.title-p')).getProperty('textContent')).jsonValue();
 
-	    var TBL = await localPage.$$('tr');
 	    for (let i = 0; i < TBL.length; i++) {
 		var ENTRY = await (await TBL[i].getProperty('outerHTML')).jsonValue();
 		var ADR = await (await TBL[i].getProperty('outerHTML')).jsonValue();
@@ -216,112 +259,6 @@ async function openBRuntilSuccess(argUrl, WAITms) {
 		FAX = FAX.replace(/[ \t]/g,'').replace(/\n/g, '');
 		console.log(BRA+","+NAME+","+ADR+","+POST+","+TEL+","+FAX);
 	    }
-
-	    const LIST = [
-		"https://www.nihonkohden.co.jp/office/sales01.html",
-		"https://www.nihonkohden.co.jp/office/sales02.html",
-		"https://www.nihonkohden.co.jp/office/sales03.html",
-		"https://www.nihonkohden.co.jp/office/sales04.html",
-		"https://www.nihonkohden.co.jp/office/sales05.html",
-		"https://www.nihonkohden.co.jp/office/sales12.html",
-		"https://www.nihonkohden.co.jp/office/sales06.html",
-		"https://www.nihonkohden.co.jp/office/sales07.html",
-		"https://www.nihonkohden.co.jp/office/sales08.html",
-		"https://www.nihonkohden.co.jp/office/sales09.html",
-		"https://www.nihonkohden.co.jp/office/sales11.html",
-		"https://www.nihonkohden.co.jp/office/sales10.html",
-		"https://www.nihonkohden.co.jp/office/service.html",
-	    ];
-
-	    for (let m = 0; m < LIST.length; m++) {
-		var TEMP = await openBRuntilSuccess(LIST[m], 10000);
-		localBrowser = TEMP.BR; localPage = TEMP.PG;
-
-		var BRA = await (await(await localPage.$('h1.title-p')).getProperty('textContent')).jsonValue();
-		var TBL = await localPage.$$('tr');
-		var NAME, ADR, POST, FAX, braFlag, preBRA;
-		for (let i = 0; i < TBL.length; i++) {
-		    var ENTRY = await (await TBL[i].getProperty('innerHTML')).jsonValue();
-		    braFlag = false;
-		    if (ENTRY.replace(/<\/th>.*/sm,'').indexOf('&nbsp') != -1) {
-			//&nbspを含む場合の処理
-			ENTRY = ENTRY.replace(/<td .+?>.+?<\/td>/sm,'');
-			braFlag = true;
-		    }
-		    //console.log(ENTRY);
-		    NAME  = ENTRY.replace(/.+?<th .+?>(.+?)<\/th>.*/sm, '$1').replace(/<.+?>/gsm,'').replace(/[ \t\n]+/sm,''); //console.log('NAME '+NAME);
-		    ENTRY = ENTRY.replace(/.+?<th .+?>(.+?)<\/th>/sm, '');
-		    POST  = ENTRY.replace(/.+?〒([0-9]{3}\-[0-9]{4}).*/sm,'$1'); //console.log('POST '+POST);
-		    ENTRY = ENTRY.replace(/.+?<td.+?<br>/sm,'');
-		    ADR   = ENTRY.replace(/<br>.*/sm,'').replace(/[ \t\n]+/sm,''); //console.log('ADR '+ADR);
-		    ENTRY = ENTRY.replace(/.+?<br>/sm,'').replace(/（代表）/gsm,'');
-		    TEL   = ENTRY.replace(/.+?<img.+?>/sm,'').replace(/<img .*/,'').replace(/\&nbsp\;/,'').replace(/[ \t\n]+/sm,''); //console.log('TEL '+TEL);
-		    ENTRY = ENTRY.replace(/.+?<img.+?<img.+?>/sm,'');
-		    FAX   = ENTRY.replace(/<td>.*/sm,'').replace(/<\/td>/,'').replace(/[ \t\n]+/sm,''); //console.log('FAX '+FAX);
-		    if (braFlag) { // インデントあり、所属営業所名をキープ
-			console.log(BRA.replace(/販売拠点：/,'')+","+preBRA+","+NAME+","+ADR+","+POST+","+TEL+","+FAX);
-		    } else { // インデントなし、所属営業所名を更新
-			console.log(BRA.replace(/販売拠点：/,'')+","+NAME+",,"+ADR+","+POST+","+TEL+","+FAX);
-			preBRA = NAME;
-		    }
-		}
-
-	    } // for m
-	    
-	    {
-		const TEMP = await openBRuntilSuccess('https://www.nihonkohden.co.jp/office/kaigai.html', 10000);
-		localBrowser = TEMP.BR; localPage = TEMP.PG;
-
-	    }
-
-	    var overseaGroup = await localPage.$$('div.articleset');
-	    for (let i = 0; i < overseaGroup.length; i++) {
-		var BRA = await (await(await overseaGroup[i].$('h3.title-m')).getProperty('textContent')).jsonValue();
-		var TBL = await overseaGroup[i].$$('tr');
-		var NAME, ADR, POST, FAX, braFlag, subNAME;
-		for (let i = 0; i < TBL.length; i++) {
-		    var ENTRY = await (await TBL[i].getProperty('innerHTML')).jsonValue();
-
-		    ENTRY = ENTRY.replace(/\&nbsp\;/gsm,'');
-		    //console.log(ENTRY);
-		    NAME  = ENTRY.replace(/.+?<th .+?>(.+?)<\/th>.*/sm, '$1').replace(/<.+?>/gsm,'').replace(/[ \t\n]+/gsm,''); //console.log('NAME '+NAME);
-		    ENTRY = ENTRY.replace(/.+?<th .+?>(.+?)<\/th>/sm, '');
-		    POST  = "";
-		    //ENTRY = ENTRY.replace(/.+?<td.+?<br>/sm,'');
-		    if (ENTRY.indexOf('拠点') != -1) {
-			//console.log(ENTRY);
-			var ITEM = ENTRY.split(/<br>/);
-			for (let kk = 0; kk < ITEM.length; kk++) {
-			    ITEM[kk] = ITEM[kk].replace(/　/gsm,'').replace(/\&nbsp\;/gsm,'').replace(/\&amp\;/gsm, '&');
-			    if (ITEM[kk].indexOf('：') != -1) {
-				ADR = ITEM[kk].replace(/.+?：/,'').replace(/<.+?>/gsm,'').replace(/[ \t\n]+/gsm,'');
-				subNAME = ITEM[kk].replace(/：.*/sm,'').replace(/<.+?>/gsm,'').replace(/[ \t\n]+/gsm,'');
-			    }
-			    if (ITEM[kk].indexOf('TEL') != -1) {
-				TEL   = ITEM[kk].replace(/.+?<img.+?>/sm,'').replace(/<img .*/,'').replace(/[ \t\n]+/sm,'').replace(/<.+?>/gsm,''); //console.log('TEL '+TEL);
-				if (ITEM[kk].indexOf('FAX') != -1) {
-				    ITEM[kk] = ITEM[kk].replace(/.+?<img.+?<img.+?>/sm,'');
-				    FAX      = ITEM[kk].replace(/<td>.*/sm,'').replace(/<\/td>/,'').replace(/[ \t\n]+/sm,'').replace(/<.+?>/gsm,''); //console.log('FAX '+FAX);
-				} else {
-				    FAX = "";
-				}
-				console.log(BRA+","+NAME+","+subNAME+',"'+ADR+'",'+POST+","+TEL+","+FAX);
-			    }
-			} // for (let kk = 0
-		    } else {
-			ADR   = ENTRY.replace(/<br>.*/sm,'').replace(/[ \t\n]+/gsm,'').replace(/<.+?>/gsm,''); //console.log('ADR '+ADR);
-			ENTRY = ENTRY.replace(/.+?<br>/sm,'').replace(/（代表）/gsm,'').replace(/　/gsm,'');
-			TEL   = ENTRY.replace(/.+?<img.+?>/sm,'').replace(/<img .*/,'').replace(/\&nbsp\;/,'').replace(/[ \t\n]+/sm,'').replace(/<.+?>/gsm,''); //console.log('TEL '+TEL);
-			if (ENTRY.indexOf('FAX') != -1) {
-			    ENTRY = ENTRY.replace(/.+?<img.+?<img.+?>/sm,'');
-			    FAX   = ENTRY.replace(/<td>.*/sm,'').replace(/<\/td>/,'').replace(/[ \t\n]+/sm,'').replace(/<.+?>/gsm,''); //console.log('FAX '+FAX);
-			} else {
-			    FAX = "";
-			}
-			console.log(BRA+","+NAME+',,"'+ADR+'",'+POST+","+TEL+","+FAX);
-		    } // if (ENTRY.indexOf('拠点')
-		}
-	    } // for (let i = 0
 
 	    //await DEBUG(localPage); process.exit(0);
 
